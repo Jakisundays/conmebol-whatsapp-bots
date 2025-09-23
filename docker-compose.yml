@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  conmebol-bot:
+    build: .
+    container_name: conmebol-bot
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      # Para persistir las sesiones de WhatsApp
+      - ./sessions:/app/sessions
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
