@@ -63,8 +63,10 @@ const flow = addKeyword<Provider, Database>(EVENTS.WELCOME)
 
 const main = async () => {
   const adapterFlow = createFlow([flow]);
-
-  const adapterProvider = createProvider(Provider);
+  type IProvider = typeof Provider;
+  const adapterProvider = createProvider(Provider, {
+    version: [2, 3000, 1025190524] as any,
+  });
   const adapterDB = new Database();
 
   const { handleCtx, httpServer } = await createBot(
