@@ -7,17 +7,19 @@ import {
 } from "@builderbot/bot";
 import { MemoryDB as Database } from "@builderbot/bot";
 import { BaileysProvider as Provider } from "@builderbot/provider-baileys";
-import Bot from "ai";
 import * as dotenv from "dotenv";
+import LLMAgent from "llmAgent";
 import systemPrompt from "systemPrompt";
 import { generateTimer, getHistoryParse, handleHistory } from "utils";
+
 dotenv.config();
 
 const PORT = process.env.PORT ?? 3050;
 
-const bot = new Bot({
-  apiKey: process.env.GEMINI_API_KEY,
-  model: "gemini-2.5-flash",
+const bot = new LLMAgent({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  model: "claude-haiku-4-5",
+  max_tokens: 1024,
   systemInstruction: systemPrompt,
 });
 
@@ -42,11 +44,14 @@ const flow = addKeyword<Provider, Database>(EVENTS.WELCOME)
         history,
       });
 
-      await handleHistory({ content: response.text, role: "assistant" }, state);
+      await handleHistory(
+        { content: response.content[0].text, role: "assistant" },
+        state
+      );
 
       await flowDynamic([
         {
-          body: response.text,
+          body: response.content[0].text,
           delay: generateTimer(300, 500),
         },
       ]);

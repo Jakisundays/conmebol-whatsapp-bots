@@ -12,9 +12,9 @@
   },
   "keywords": [],
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.67.0",
     "@builderbot/bot": "v1.3.5-alpha.9",
     "@builderbot/provider-baileys": "v1.3.5-alpha.9",
-    "@google/genai": "^1.17.0",
     "dotenv": "^17.2.2",
     "jimp": "^1.6.0"
   },
